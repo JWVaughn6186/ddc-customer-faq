@@ -15,42 +15,39 @@ const faqData = [
   }
 ];
 
-function initFAQ() {
+function init() {
+
   const faqContainer = document.getElementById("faqContainer");
   const searchBox = document.getElementById("searchBox");
   const legalFilter = document.getElementById("legalFilter");
   const testFilter = document.getElementById("testFilter");
   const categoryFilter = document.getElementById("categoryFilter");
 
-  if (!faqContainer || !searchBox) {
-    console.log("DOM not ready yet");
-    return;
-  }
-
   // Populate dropdowns
   const legalSet = new Set();
   const testSet = new Set();
   const catSet = new Set();
 
-  faqData.forEach(item => {
-    legalSet.add(item.legalType);
-    testSet.add(item.testType);
-    catSet.add(item.category);
+  faqData.forEach(f => {
+    legalSet.add(f.legalType);
+    testSet.add(f.testType);
+    catSet.add(f.category);
   });
 
   legalSet.forEach(v => legalFilter.innerHTML += `<option value="${v}">${v}</option>`);
   testSet.forEach(v => testFilter.innerHTML += `<option value="${v}">${v}</option>`);
   catSet.forEach(v => categoryFilter.innerHTML += `<option value="${v}">${v}</option>`);
 
-  function render(data) {
+  function render(list) {
     faqContainer.innerHTML = "";
-    data.forEach(item => {
+
+    list.forEach(f => {
       const div = document.createElement("div");
       div.className = "faq-item";
 
       div.innerHTML = `
-        <b>${item.question}</b>
-        <div class="answer" style="display:none;">${item.answer}</div>
+        <b>${f.question}</b>
+        <div class="answer" style="display:none;">${f.answer}</div>
       `;
 
       div.onclick = () => {
@@ -68,23 +65,23 @@ function initFAQ() {
     const t = testFilter.value;
     const c = categoryFilter.value;
 
-    const filtered = faqData.filter(i =>
-      (i.question.toLowerCase().includes(s) ||
-       i.answer.toLowerCase().includes(s)) &&
-      (l === "" || i.legalType === l) &&
-      (t === "" || i.testType === t) &&
-      (c === "" || i.category === c)
+    const filtered = faqData.filter(f =>
+      (f.question.toLowerCase().includes(s) ||
+       f.answer.toLowerCase().includes(s)) &&
+      (l === "" || f.legalType === l) &&
+      (t === "" || f.testType === t) &&
+      (c === "" || f.category === c)
     );
 
     render(filtered);
   }
 
-  searchBox.onkeyup = filter;
-  legalFilter.onchange = filter;
-  testFilter.onchange = filter;
-  categoryFilter.onchange = filter;
+  searchBox.addEventListener("input", filter);
+  legalFilter.addEventListener("change", filter);
+  testFilter.addEventListener("change", filter);
+  categoryFilter.addEventListener("change", filter);
 
   render(faqData);
 }
 
-document.addEventListener("DOMContentLoaded", initFAQ);
+window.onload = init;

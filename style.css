@@ -1,48 +1,20 @@
-body {
-  font-family: Arial, sans-serif;
-  margin: 20px;
-  background: #f7f7f7;
-}
-
-h1 {
-  text-align: center;
-}
-
-input {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-}
-
-.filters {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-select {
-  padding: 8px;
-  flex: 1;
-}
-
-.faq-item {
-  background: white;
-  padding: 15px;
-  margin-bottom: 10px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.answer {
-  display: none;
-  margin-top: 10px;
-  color: #333;
-}
-
-.feedback {
-  margin-top: 10px;
-}
-
-button {
-  margin-right: 10px;
-}
+const faqData = [
+  {
+    question: "How long does testing take?",
+    answer: "Results are available in 2 business days.",
+    legalType: "Legal",
+    testType: "Paternity",
+    category: "Turnaround Time",
+    helpful: 0,
+    notHelpful: 0
+  },
+  {
+    question: "What is required for immigration testing?",
+    answer: "Valid identification and chain of custody documentation are required.",
+    legalType: "Legal",
+    testType: "Immigration",
+    category: "Requirements",
+    helpful: 0,
+    notHelpful: 0
+  }
+];

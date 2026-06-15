@@ -28,15 +28,15 @@ function init() {
   const categoryFilter = document.getElementById("categoryFilter");
 
   // Populate dropdowns
-const legalSet = new Set();
-const testSet = new Set();
-const catSet = new Set();
+  const legalSet = new Set();
+  const testSet = new Set();
+  const catSet = new Set();
 
-faqData.forEach(f => {
-  legalSet.add(clean(f.legalType));
-  testSet.add(clean(f.testType));
-  catSet.add(clean(f.category));
-});
+  faqData.forEach(f => {
+    legalSet.add(clean(f.legalType));
+    testSet.add(clean(f.testType));
+    catSet.add(clean(f.category));
+  });
 
   legalSet.forEach(v => legalFilter.innerHTML += `<option value="${v}">${v}</option>`);
   testSet.forEach(v => testFilter.innerHTML += `<option value="${v}">${v}</option>`);
@@ -69,13 +69,13 @@ faqData.forEach(f => {
     const t = testFilter.value;
     const c = categoryFilter.value;
 
-const filtered = faqData.filter(f =>
-  (clean(f.question).toLowerCase().includes(s) ||
-  (clean(f.answer.toLowerCase().includes(s)) &&
-  (l === "" || clean(f.legalType) === l) &&
-  (t === "" || clean(f.testType) === t) &&
-  (c === "" || clean(f.category) === c)
-);  
+    const filtered = faqData.filter(f =>
+      (clean(f.question).toLowerCase().includes(s) ||
+       clean(f.answer).toLowerCase().includes(s)) &&
+      (l === "" || clean(f.legalType) === l) &&
+      (t === "" || clean(f.testType) === t) &&
+      (c === "" || clean(f.category) === c)
+    );
 
     render(filtered);
   }

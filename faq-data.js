@@ -63,22 +63,24 @@ function init() {
     });
   }
 
-  function filter() {
-    const s = searchBox.value.toLowerCase();
-    const l = legalFilter.value;
-    const t = testFilter.value;
-    const c = categoryFilter.value;
+function filter() {
+  const s = searchBox.value.toLowerCase();
+  const l = legalFilter.value;
+  const t = testFilter.value;
+  const c = categoryFilter.value;
 
-    const filtered = faqData.filter(f =>
+  const filtered = faqData.filter(f => {
+    return (
       (clean(f.question).toLowerCase().includes(s) ||
        clean(f.answer).toLowerCase().includes(s)) &&
       (l === "" || clean(f.legalType) === l) &&
       (t === "" || clean(f.testType) === t) &&
       (c === "" || clean(f.category) === c)
     );
+  });
 
-    render(filtered);
-  }
+  render(filtered);
+}
 
   searchBox.addEventListener("input", filter);
   legalFilter.addEventListener("change", filter);

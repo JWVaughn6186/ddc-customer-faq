@@ -1,30 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>Customer FAQ Portal</title>
-<link rel="stylesheet" href="style.css">
+  <title>Customer FAQ Portal</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
 <h1>Customer FAQ Portal</h1>
 
-<input type="text" id="searchBox" placeholder="Search FAQs..." onkeyup="filterFAQs()">
+<input id="searchBox" placeholder="Search FAQs...">
 
-<div class="filters">
-  <select id="legalFilter" onchange="filterFAQs()">
-    <option value="">Legal Type</option>
-  </select>
+<br><br>
 
-  <select id="testFilter" onchange="filterFAQs()">
-    <option value="">Test Type</option>
-  </select>
+<select id="legalFilter">
+  <option value="">Legal Type</option>
+</select>
 
-  <select id="categoryFilter" onchange="filterFAQs()">
-    <option value="">Category</option>
-  </select>
-</div>
+<select id="testFilter">
+  <option value="">Test Type</option>
+</select>
+
+<select id="categoryFilter">
+  <option value="">Category</option>
+</select>
 
 <div id="faqContainer"></div>
 

@@ -15,78 +15,76 @@ const faqData = [
   }
 ];
 
-// Wait until DOM is fully ready
-document.addEventListener("DOMContentLoaded", function () {
-
+function initFAQ() {
   const faqContainer = document.getElementById("faqContainer");
   const searchBox = document.getElementById("searchBox");
   const legalFilter = document.getElementById("legalFilter");
   const testFilter = document.getElementById("testFilter");
   const categoryFilter = document.getElementById("categoryFilter");
 
-  function populateFilters() {
-    const legalSet = new Set();
-    const testSet = new Set();
-    const catSet = new Set();
-
-    faqData.forEach(item => {
-      legalSet.add(item.legalType);
-      testSet.add(item.testType);
-      catSet.add(item.category);
-    });
-
-    legalSet.forEach(v => legalFilter.innerHTML += `<option value="${v}">${v}</option>`);
-    testSet.forEach(v => testFilter.innerHTML += `<option value="${v}">${v}</option>`);
-    catSet.forEach(v => categoryFilter.innerHTML += `<option value="${v}">${v}</option>`);
+  if (!faqContainer || !searchBox) {
+    console.log("DOM not ready yet");
+    return;
   }
 
-  function renderFAQs(data) {
-    faqContainer.innerHTML = "";
+  // Populate dropdowns
+  const legalSet = new Set();
+  const testSet = new Set();
+  const catSet = new Set();
 
+  faqData.forEach(item => {
+    legalSet.add(item.legalType);
+    testSet.add(item.testType);
+    catSet.add(item.category);
+  });
+
+  legalSet.forEach(v => legalFilter.innerHTML += `<option value="${v}">${v}</option>`);
+  testSet.forEach(v => testFilter.innerHTML += `<option value="${v}">${v}</option>`);
+  catSet.forEach(v => categoryFilter.innerHTML += `<option value="${v}">${v}</option>`);
+
+  function render(data) {
+    faqContainer.innerHTML = "";
     data.forEach(item => {
       const div = document.createElement("div");
       div.className = "faq-item";
 
       div.innerHTML = `
-        <strong>${item.question}</strong>
+        <b>${item.question}</b>
         <div class="answer" style="display:none;">${item.answer}</div>
       `;
 
-      div.addEventListener("click", function () {
+      div.onclick = () => {
         const ans = div.querySelector(".answer");
         ans.style.display = ans.style.display === "block" ? "none" : "block";
-      });
+      };
 
       faqContainer.appendChild(div);
     });
   }
 
-  function filterFAQs() {
-    const search = searchBox.value.toLowerCase();
-    const legal = legalFilter.value;
-    const test = testFilter.value;
-    const category = categoryFilter.value;
+  function filter() {
+    const s = searchBox.value.toLowerCase();
+    const l = legalFilter.value;
+    const t = testFilter.value;
+    const c = categoryFilter.value;
 
-    const filtered = faqData.filter(item => {
-      return (
-        (item.question.toLowerCase().includes(search) ||
-         item.answer.toLowerCase().includes(search)) &&
-        (legal === "" || item.legalType === legal) &&
-        (test === "" || item.testType === test) &&
-        (category === "" || item.category === category)
-      );
-    });
+    const filtered = faqData.filter(i =>
+      (i.question.toLowerCase().includes(s) ||
+       i.answer.toLowerCase().includes(s)) &&
+      (l === "" || i.legalType === l) &&
+      (t === "" || i.testType === t) &&
+      (c === "" || i.category === c)
+    );
 
-    renderFAQs(filtered);
+    render(filtered);
   }
 
-  // Hook events
-  searchBox.addEventListener("keyup", filterFAQs);
-  legalFilter.addEventListener("change", filterFAQs);
-  testFilter.addEventListener("change", filterFAQs);
-  categoryFilter.addEventListener("change", filterFAQs);
+  searchBox.onkeyup = filter;
+  legalFilter.onchange = filter;
+  testFilter.onchange = filter;
+  categoryFilter.onchange = filter;
 
-  // INIT
-  populateFilters();
-  renderFAQs(faqData);
-});
+  render(faqData);
+}
+
+document.addEventListener("DOMContentLoaded", initFAQ);
